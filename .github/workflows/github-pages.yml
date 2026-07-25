@@ -1,7 +1,14 @@
 name: GitHub Pages
 on:
+  # IMPORTANT: deployment is scoped to the default branch on purpose.
+  #
+  # The `template` branch is a starting point, not the published site. If this
+  # workflow triggered on every push (as it does in some sibling repos), pushing
+  # the template would silently replace https://daggerok.github.io/fidelity/
+  # with the template app. Keep this filter when merging the template anywhere.
   push:
-    branches: ["master"]
+    branches:
+      - master
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,16 +26,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # The static build needs no deeper commit history.
+          fetch-depth: 2
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - run: bun install -E
-      # Используем скрипт из вашего package.json
       - run: bun run build-github-pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Убедитесь, что parcel кладет файлы именно сюда
+          path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
