@@ -1,0 +1,55 @@
+{
+  "name": "fidelity-template",
+  "version": "1.0.0",
+  "description": "Getting-started template: CSV viewer + Google Sheets/localStorage repositories behind one interface",
+  "source": "src/index.html",
+  "scripts": {
+    "clean": "rimraf -rf dist",
+    "preserve": "npm run clean",
+    "prebuild": "npm run clean",
+    "build-github-pages": "npm run build -- --public-url=/fidelity/",
+    "serve": "parcel --no-cache --no-source-maps",
+    "build": "parcel build --no-cache --no-source-maps",
+    "start": "pm2 start 'npm run serve' --name app",
+    "restart": "pm2 restart app",
+    "stop": "pm2 kill",
+    "logs": "pm2 logs",
+    "test": "bun test",
+    "dev": "npm run serve"
+  },
+  "keywords": [
+    "template",
+    "csv",
+    "google-sheets",
+    "localstorage",
+    "repository-pattern",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "parcel",
+    "bun"
+  ],
+  "author": "Maksim Kostromin / GitHub: daggerok",
+  "license": "MIT",
+  "dependencies": {
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.2",
+    "@types/bun": "1.3.14",
+    "@types/node": "26.1.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "parcel": "2.16.4",
+    "pm2": "7.0.3",
+    "rimraf": "6.1.3",
+    "tailwindcss": "4.3.2",
+    "typescript": "5.9.3"
+  },
+  "postcss": {
+    "plugins": {
+      "@tailwindcss/postcss": {}
+    }
+  }
+}

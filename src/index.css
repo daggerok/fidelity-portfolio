@@ -1,0 +1,101 @@
+/* index.css */
+/**
+ * ============================================================================
+ * AGENTIC AI ENFORCED SPECIFICATION & GUIDELINES (CRITICAL)
+ * ============================================================================
+ * 1. PERSIST ALL COMMENTS: Under no circumstances should ANY code comments,
+ *    system design docs, or type descriptors be removed or truncated.
+ * 2. AGENT READ-WRITE RULE: If a future deployment or agent updates the code,
+ *    this header section and related documentation blocks MUST be kept accurate,
+ *    expanded, and dynamically synchronized with the feature upgrades.
+ * ============================================================================
+ *
+ * ============================================================================
+ * PROJECT: CSV + Google Sheets Template — Global Styles
+ * ENVIRONMENT: TailwindCSS v4 (CSS-first configuration)
+ * ============================================================================
+ *
+ * 1. [Tailwind Engine & Dark Variant]
+ *    `@custom-variant dark (&:where(.dark, .dark *))` matches the strategy used
+ *    by daggerok/fundamentals so the `.dark` class on <html> — set from the
+ *    settings panel — wins over default specificity.
+ *
+ * 2. [Animations]
+ *    `fadeIn` powers toast entry and popover reveal.
+ *
+ * 3. [Scrollbar Theming]
+ *    `.table-container` (data grid) and `.themed-scroll` (tab strip) share one
+ *    themed scrollbar treatment across Firefox and WebKit.
+ * ============================================================================
+ */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.25s ease-out; }
+
+/* ============================================================================
+ * SCROLLBAR THEMING
+ * ========================================================================= */
+
+/* Firefox */
+.table-container,
+.themed-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent; /* slate-300 thumb */
+}
+.dark .table-container,
+.dark .themed-scroll {
+    scrollbar-color: #334155 transparent; /* slate-700 thumb */
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+.table-container::-webkit-scrollbar,
+.themed-scroll::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.table-container::-webkit-scrollbar-track,
+.themed-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.table-container::-webkit-scrollbar-thumb,
+.themed-scroll::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1; /* slate-300 */
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+.table-container::-webkit-scrollbar-thumb:hover,
+.themed-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8; /* slate-400 */
+}
+.dark .table-container::-webkit-scrollbar-thumb,
+.dark .themed-scroll::-webkit-scrollbar-thumb {
+    background-color: #334155; /* slate-700 */
+}
+.dark .table-container::-webkit-scrollbar-thumb:hover,
+.dark .themed-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #475569; /* slate-600 */
+}
+.table-container::-webkit-scrollbar-corner,
+.themed-scroll::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* ============================================================================
+ * SURFACES — keep the page background in sync with the active theme so the
+ * area behind the app shell never flashes white on a dark reload.
+ * ========================================================================= */
+html.dark,
+html.dark body {
+    background: #0f172a; /* slate-900 */
+    color: #f1f5f9;
+    color-scheme: dark;
+}
