@@ -1,12 +1,12 @@
 {
-  "name": "fidelity",
+  "name": "fidelity-portfolio",
   "version": "1.0.0",
   "description": "Math for Ameliia",
   "source": "src/index.html",
   "scripts": {
     "clean": "rimraf -rf dist",
     "prebuild": "npm run clean",
-    "build-github-pages": "npm run build -- --public-url=/fidelity/",
+    "build-github-pages": "npm run build -- --public-url=/fidelity-portfolio/",
     "serve": "parcel --no-cache --no-source-maps",
     "build": "parcel build --no-cache --no-source-maps",
     "start": "pm2 start 'npm run serve' --name app",

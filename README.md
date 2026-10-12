@@ -1,6 +1,6 @@
-# Fidelity [![CI](https://github.com/daggerok/fidelity/actions/workflows/ci.yaml/badge.svg)](https://github.com/daggerok/fidelity/actions/workflows/ci.yaml) [![GitHub Pages](https://github.com/daggerok/fidelity/actions/workflows/github-pages.yml/badge.svg)](https://github.com/daggerok/fidelity/actions/workflows/github-pages.yml)
+# Fidelity [![CI](https://github.com/daggerok/fidelity-portfolio/actions/workflows/ci.yaml/badge.svg)](https://github.com/daggerok/fidelity-portfolio/actions/workflows/ci.yaml) [![GitHub Pages](https://github.com/daggerok/fidelity-portfolio/actions/workflows/github-pages.yml/badge.svg)](https://github.com/daggerok/fidelity-portfolio/actions/workflows/github-pages.yml)
 
-[Fidelity investments analyzer](https://daggerok.github.io/fidelity/)
+[Fidelity investments analyzer](https://daggerok.github.io/fidelity-portfolio/)
 
 Bun build requirements:
 
