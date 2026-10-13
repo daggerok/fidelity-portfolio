@@ -1,6 +1,5 @@
-import { StrictMode, useRef, useState } from "react";
-import { createRoot } from "react-dom/client";
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef, StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from 'recharts';
 import { Upload, Filter, TrendingUp, DollarSign, BarChart3, X, Menu, Sun, Moon, FileText, ChevronDown, ChevronUp, ArrowUpDown, ArrowUp, ArrowDown, FilterX, RotateCcw, Edit3, Check } from 'lucide-react';
 import Papa from 'papaparse';
@@ -11,6 +10,10 @@ import "./index.css";
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 1: DATA TYPES (exported for testing)
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export interface OptimizedFileIndex {
     fileName: string;
@@ -34,6 +37,10 @@ export interface PortfolioAggregate {
     positions: Record<string, PositionState>;
     globalPnL: number;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 2: PORTFOLIO REDUCTION LOGIC (exported for testing)
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export function reducePortfolioOptimized(fileIndices: OptimizedFileIndex[]): PortfolioAggregate {
     const aggregate: PortfolioAggregate = { positions: {}, globalPnL: 0 };
@@ -153,9 +160,11 @@ export function parseFidelityCSVOptimized(file: File): Promise<OptimizedFileInde
     });
 }
 
-// ─── Alias Generation Utility ─────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 3: ALIAS GENERATION (exported for testing)
+// ═══════════════════════════════════════════════════════════════════════════════
 
-function generateAccountAliases(fileIndices: OptimizedFileIndex[]): Record<string, string> {
+export function generateAccountAliases(fileIndices: OptimizedFileIndex[]): Record<string, string> {
     if (fileIndices.length === 0) return {};
 
     const fileNames = fileIndices.map(f => f.fileName);
@@ -242,7 +251,9 @@ function generateAccountAliases(fileIndices: OptimizedFileIndex[]): Record<strin
     return aliases;
 }
 
-// ─── Column Filter Types ──────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 4: COLUMN FILTER LOGIC (exported for testing)
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export type StringOperator = 'contains' | 'not_contains' | 'equals' | 'not_equals' | 'starts_with' | 'ends_with';
 export type NumericOperator = 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte';
@@ -253,7 +264,7 @@ export interface ColumnFilter {
 }
 export type ColumnFilters = Record<string, ColumnFilter>;
 
-const STRING_OPERATORS: { value: StringOperator; label: string; symbol: string }[] = [
+export const STRING_OPERATORS: { value: StringOperator; label: string; symbol: string }[] = [
     { value: 'contains',     label: 'Contains',         symbol: '⊇' },
     { value: 'not_contains', label: 'Not contains',     symbol: '⊉' },
     { value: 'equals',       label: 'Equals',           symbol: '=' },
@@ -262,7 +273,7 @@ const STRING_OPERATORS: { value: StringOperator; label: string; symbol: string }
     { value: 'ends_with',    label: 'Ends with',        symbol: '⊐' },
 ];
 
-const NUMERIC_OPERATORS: { value: NumericOperator; label: string; symbol: string }[] = [
+export const NUMERIC_OPERATORS: { value: NumericOperator; label: string; symbol: string }[] = [
     { value: 'eq',  label: 'Equals',              symbol: '='  },
     { value: 'neq', label: 'Not equals',          symbol: '≠'  },
     { value: 'gte', label: 'Greater or equal',    symbol: '≥'  },
@@ -271,7 +282,7 @@ const NUMERIC_OPERATORS: { value: NumericOperator; label: string; symbol: string
     { value: 'lt',  label: 'Less than',           symbol: '<'  },
 ];
 
-function matchesStringFilter(cellValue: string, filter: ColumnFilter): boolean {
+export function matchesStringFilter(cellValue: string, filter: ColumnFilter): boolean {
     const op = filter.operator as StringOperator;
     const val = filter.value.toLowerCase();
     const cell = cellValue.toLowerCase();
@@ -287,7 +298,7 @@ function matchesStringFilter(cellValue: string, filter: ColumnFilter): boolean {
     }
 }
 
-function matchesNumericFilter(cellValue: number, filter: ColumnFilter): boolean {
+export function matchesNumericFilter(cellValue: number, filter: ColumnFilter): boolean {
     const op = filter.operator as NumericOperator;
 
     // Handle empty value - match all
@@ -303,7 +314,7 @@ function matchesNumericFilter(cellValue: number, filter: ColumnFilter): boolean 
     }
 
     switch (op) {
-        case 'eq':  return Math.abs(cellValue - val) < 0.0001; // Use tolerance for floating point
+        case 'eq':  return Math.abs(cellValue - val) < 0.0001;
         case 'neq': return Math.abs(cellValue - val) >= 0.0001;
         case 'gt':  return cellValue > val;
         case 'gte': return cellValue >= val;
@@ -312,6 +323,10 @@ function matchesNumericFilter(cellValue: number, filter: ColumnFilter): boolean 
         default:    return true;
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 5: UI COMPONENTS (internal, not exported for testing)
+// ═══════════════════════════════════════════════════════════════════════════════
 
 // ─── Column Filter Input Component ───────────────────────────────────────────
 
@@ -334,7 +349,6 @@ function ColumnFilterInput({ columnKey, columnType, filter, onChange, isDark, al
 
     const handleOperatorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newOp = e.target.value as StringOperator | NumericOperator;
-        // Always save operator preference, even if value is empty
         onChange(columnKey, { operator: newOp, value: currentVal });
     };
 
@@ -364,7 +378,6 @@ function ColumnFilterInput({ columnKey, columnType, filter, onChange, isDark, al
         ? "bg-slate-800 border border-white/10 border-l-0 text-gray-500 hover:text-red-400 rounded-r-md px-1 py-1 focus:outline-none transition-colors flex-shrink-0"
         : "bg-gray-100 border border-gray-300 border-l-0 text-gray-400 hover:text-red-500 rounded-r-md px-1 py-1 focus:outline-none transition-colors flex-shrink-0";
 
-    // Now shows blue ring when operator is changed from default (even without value)
     const isOperatorChanged = filter?.operator !== undefined && filter?.operator !== defaultOp;
     const activeRingClass = (filter || isOperatorChanged)
         ? "ring-1 ring-blue-500 rounded-md"
@@ -373,7 +386,6 @@ function ColumnFilterInput({ columnKey, columnType, filter, onChange, isDark, al
     return (
         <div className={`flex items-center w-full ${align === 'right' ? 'justify-end' : align === 'center' ? 'justify-center' : 'justify-start'}`}>
             <div className={`flex items-center min-w-0 max-w-full ${activeRingClass}`}>
-                {/* Operator dropdown */}
                 <select
                     value={currentOp}
                     onChange={handleOperatorChange}
@@ -386,7 +398,6 @@ function ColumnFilterInput({ columnKey, columnType, filter, onChange, isDark, al
                         </option>
                     ))}
                 </select>
-                {/* Value input */}
                 <input
                     ref={inputRef}
                     type={columnType === 'number' ? 'number' : 'text'}
@@ -395,7 +406,6 @@ function ColumnFilterInput({ columnKey, columnType, filter, onChange, isDark, al
                     placeholder={placeholder ?? (columnType === 'number' ? '0' : 'filter…')}
                     className={inputClass}
                 />
-                {/* Clear button */}
                 <button
                     onClick={handleClear}
                     className={clearClass}
@@ -586,7 +596,7 @@ function AccountListItem({ account, alias, onEdit, isSelected, onToggle, isDark 
     );
 }
 
-// ─── Main App ─────────────────────────────────────────────────────────────────
+// ─── Main App Component ───────────────────────────────────────────────────────
 
 function App() {
     const [fileIndices, setFileIndices] = useState<OptimizedFileIndex[]>([]);
@@ -1359,8 +1369,15 @@ function App() {
     );
 }
 
-createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <App />
-    </StrictMode>
-);
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 6: RENDER (only runs in browser)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Only render in browser environment (not during testing)
+if (typeof document !== 'undefined') {
+    createRoot(document.getElementById("root")!).render(
+        <StrictMode>
+            <App />
+        </StrictMode>
+    );
+}
