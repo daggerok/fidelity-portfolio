@@ -1,114 +1,41 @@
-# Fidelity [![CI](https://github.com/daggerok/fidelity-portfolio/actions/workflows/ci.yaml/badge.svg)](https://github.com/daggerok/fidelity-portfolio/actions/workflows/ci.yaml) [![GitHub Pages](https://github.com/daggerok/fidelity-portfolio/actions/workflows/github-pages.yml/badge.svg)](https://github.com/daggerok/fidelity-portfolio/actions/workflows/github-pages.yml)
+# Fidelity reports [![CI](https://github.com/daggerok/fidelity-portfolio/actions/workflows/ci.yaml/badge.svg)](https://github.com/daggerok/fidelity-portfolio/actions/workflows/ci.yaml) [![GitHub Pages](https://github.com/daggerok/fidelity-portfolio/actions/workflows/github-pages.yml/badge.svg)](https://github.com/daggerok/fidelity-portfolio/actions/workflows/github-pages.yml)
 
-[Fidelity investments analyzer](https://daggerok.github.io/fidelity-portfolio/)
+[Open the app](https://daggerok.github.io/fidelity-portfolio/)
 
-Bun build requirements:
+A static web page that replaces the Fidelity jobs of [scio-examples](https://github.com/daggerok/scio-examples). Import Fidelity `Portfolio_Positions` CSV exports (one per account or an all-accounts file) and get the same reports the Scala jobs wrote to `target/`:
+
+| Tab | Scala job | What it shows |
+| --- | --- | --- |
+| Watchlists | `BuildFidelityAccountsWatchlistScioApp` | tickers by market cap: All, All Stocks, All ETFs and one list per account |
+| Investments | `BuildFidelityInvestmentsScioApp` | dollars still missing to reach $2 ... $100 per position |
+| Dividends | `BuildFidelityDividendsScioApp` | dollars needed so a payout buys 0.001 share, at 1x ... 100000x |
+| DRIPs | `BuildFidelityDRIPsScioApp` | DRIP shortfall in dollars and shares, future ex and pay dates |
+
+- Files: every imported file as a table. Preamble lines, blank lines and the quoted disclaimers at the end are ignored, an all-accounts export is split by account. A CSV that is not a Fidelity positions export is shown but not used in the reports
+- The reports are built in a web worker while you look at the files; a spinner sits on each report tab until it is ready
+- Every table sorts (click a header), filters with the grammar of the ETF apps (space AND, comma OR, `!` NOT, `?` empty, `>10 <50`, ranges `10..50`, `K M B T`, `=exact ^starts ends$ /regex/`, dates), has a Columns menu, Copy Tickers, Export .csv and Export .txt. Column types are detected and can be changed with the badge in the header (Shift+click resets)
+- Download all reports: one zip with `watchlist/`, `investments/`, `dividends/` and `DRIPs/`, in the Scala output format
+- Nothing leaves the browser. Files are kept across reloads only when "Remember files" is on (off by default)
+
+## Differences from the Scala jobs
+
+- The Scala All, All Stocks and All ETFs watchlists read every file with the header of one file (`take(1)` over the union). Exports with other columns (`Sleeve name`, 38, 39 or 41 columns) lose their tickers there: 242 instead of 449 tickers on the 2026-10-02 exports. The web app reads each file with its own header, so All is the union of the account lists
+- Rows with an equal sort key (the same market cap in a watchlist, the same first diff in dividends) have no defined order in Beam; here they keep the file order
+
+## Development
 
 ```bash
-nvm install --lts
-nvm alias default 'lts/*'
-
-echo '
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-' >> ~/.zshrc
-source ~/.zshrc
+bun install -E
+bun test src                                  # report math and CSV reading
+bun run build                                 # Parcel build into dist/
+bun run serve                                 # http://localhost:1234
+bun scripts/compare-scio.ts ../scio-examples  # compare with the Scala outputs in scio-examples/target
 ```
 
-<!--
+`compare-scio.ts` runs the reports on `scio-examples/src/main/resources/input` and compares them with `target/{watchlist,investments,dividends,DRIPs}`. DRIPs show only dates after the day the Scala job ran, taken from the time of `target/DRIPs/1.csv` (or pass it: `... ../scio-examples 2026-10-03`).
 
-```markdown
-here is my setup
+The money math uses `decimal.js` with 34 digits and HALF_EVEN, like Scala's `BigDecimal`, so every cent matches.
 
-package.json
-```json
-{
-  "name": "fidelity",
-  "version": "1.0.0",
-  "description": "Math for Ameliia",
-  "source": "src/index.html",
-  "scripts": {
-    "clean": "rimraf -rf dist",
-    "prebuild": "npm run clean",
-    "build-github-pages": "npm run build -- --public-url=/fidelity/",
-    "serve": "parcel --no-cache --no-source-maps",
-    "build": "parcel build --no-cache --no-source-maps",
-    "start": "pm2 start 'npm run serve' --name app",
-    "restart": "pm2 restart app",
-    "stop": "pm2 kill",
-    "logs": "pm2 logs",
-    "test": "jest src",
-    "dev": "npm run test -- --watchAll"
-  },
-  "keywords": [
-    "parcel",
-    "rimraf",
-    "sass",
-    "jest",
-    "pm2"
-  ],
-  "author": "Maksim Kostromin / GitHub: daggerok",
-  "license": "MIT",
-  "dependencies": {
-    "clsx": "2.1.1",
-    "lucide-react": "1.16.0",
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "recharts": "3.8.1",
-    "tailwind-merge": "3.6.0"
-  },
-  "devDependencies": {
-    "@parcel/transformer-sass": "2.16.4",
-    "@tailwindcss/postcss": "4.3.0",
-    "@types/node": "25.6.0",
-    "@types/papaparse": "5.5.2",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "jest": "30.3.0",
-    "papaparse": "5.5.3",
-    "parcel": "2.16.4",
-    "pm2": "6.0.14",
-    "rimraf": "6.1.3",
-    "sass": "1.99.0",
-    "tailwindcss": "4.3.0"
-  },
-  "postcss": {
-    "plugins": {
-      "@tailwindcss/postcss": {}
-    }
-  }
-}
-```
-src/index.html
-```html
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fidelity Portfolio Analyzer - Event Sourcing Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="icon" type="image/png" href="./favicon.png">
-    <link href="./index.css" type="text/css" rel="stylesheet" />
-</head>
-<body>
-<div id="root"/>
-<script src="./main.tsx" type="module"></script>
-</body>
-</html>
-```
-index.css
-```css
-@import "tailwindcss";
-```
-src/favicon.png and src/main.tsx:
-```tsx
-...
-```
-NOTE: implement all needed code in main.tsx so it will be easier to communicate...
+## License
 
-...
-```
-
--->
+MIT

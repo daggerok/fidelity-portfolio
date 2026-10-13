@@ -1,7 +1,7 @@
 {
   "name": "fidelity-portfolio",
   "version": "1.0.0",
-  "description": "Fidelity portfolio analyzer",
+  "description": "Fidelity reports: watchlists, investments, dividends and DRIPs from Portfolio_Positions CSV exports",
   "source": "src/index.html",
   "scripts": {
     "clean": "rimraf -rf dist",
@@ -14,34 +14,37 @@
     "stop": "pm2 kill",
     "logs": "pm2 logs",
     "test": "bun test src",
-    "dev": "bun test src --watch"
+    "dev": "bun test src --watch",
+    "compare": "bun scripts/compare-scio.ts"
   },
   "keywords": [
+    "fidelity",
+    "csv",
+    "dividends",
+    "drip",
+    "watchlist",
     "parcel",
-    "rimraf",
-    "sass",
-    "jest",
-    "pm2"
+    "react",
+    "bun"
   ],
   "author": "Maksim Kostromin / GitHub: daggerok",
   "license": "MIT",
   "dependencies": {
     "clsx": "2.1.1",
+    "decimal.js": "10.6.0",
+    "fflate": "0.8.3",
     "lucide-react": "1.16.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "recharts": "3.8.1",
     "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.16.4",
     "@tailwindcss/postcss": "4.3.0",
+    "@types/bun": "1.4.3",
     "@types/node": "25.6.0",
-    "@types/papaparse": "5.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "jest": "30.4.2",
-    "papaparse": "5.5.3",
     "parcel": "2.16.4",
     "pm2": "6.0.14",
     "rimraf": "6.1.3",

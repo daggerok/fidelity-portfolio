@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-2.5 py-1 text-sm whitespace-nowrap hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700;
+  }
+  .btn-sm {
+    @apply rounded border border-slate-300 px-2 py-0.5 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700;
+  }
+  .btn-on {
+    @apply border-blue-500 text-blue-700 dark:text-blue-300;
+  }
+  .btn-primary {
+    @apply border-blue-600 bg-blue-600 text-white hover:bg-blue-700 dark:border-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700;
+  }
+  .btn-danger {
+    @apply border-red-500 text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950;
+  }
+}
