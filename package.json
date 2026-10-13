@@ -1,7 +1,7 @@
 {
   "name": "fidelity-portfolio",
   "version": "1.0.0",
-  "description": "Math for Ameliia",
+  "description": "Fidelity portfolio analyzer",
   "source": "src/index.html",
   "scripts": {
     "clean": "rimraf -rf dist",
@@ -13,8 +13,8 @@
     "restart": "pm2 restart app",
     "stop": "pm2 kill",
     "logs": "pm2 logs",
-    "test": "jest src",
-    "dev": "npm run test -- --watchAll"
+    "test": "bun test src",
+    "dev": "bun test src --watch"
   },
   "keywords": [
     "parcel",
@@ -40,7 +40,7 @@
     "@types/papaparse": "5.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "jest": "30.3.0",
+    "jest": "30.4.2",
     "papaparse": "5.5.3",
     "parcel": "2.16.4",
     "pm2": "6.0.14",
