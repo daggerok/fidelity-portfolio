@@ -866,7 +866,7 @@ function App() {
         <div className={isDark ? "min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" : "min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100"}>
             {/* Header */}
             <header className={isDark ? "border-b border-white/10 bg-black/20 backdrop-blur-xl sticky top-0 z-40" : "border-b border-gray-200 bg-white/80 backdrop-blur-xl sticky top-0 z-40"}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-2 rounded-xl">
@@ -905,7 +905,7 @@ function App() {
                             {fileIndices.length > 0 && (
                                 <button
                                     onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                    className={isDark ? "lg:hidden bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2" : "lg:hidden bg-gray-200 hover:bg-gray-300 text-gray-900 px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2"}
+                                    className={isDark ? "xl:hidden bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2" : "xl:hidden bg-gray-200 hover:bg-gray-300 text-gray-900 px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2"}
                                 >
                                     {isFilterOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                                 </button>
@@ -915,7 +915,7 @@ function App() {
                 </div>
             </header>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-6 sm:py-8">
                 {/* Upload Section */}
                 <label className={isDark ? "block bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8 shadow-2xl cursor-pointer hover:border-white/20 transition-all duration-200" : "block bg-gradient-to-br from-blue-100/50 to-purple-100/50 backdrop-blur-sm border border-gray-300 rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8 shadow-xl cursor-pointer hover:border-gray-400 transition-all duration-200"}>
                     <input
@@ -971,7 +971,7 @@ function App() {
                         </button>
                         {isFilesExpanded && (
                             <div className="p-6 pt-2">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                                     {fileIndices.map((file, idx) => (
                                         <div key={idx} className={isDark ? "bg-white/5 border border-white/10 rounded-lg p-3 hover:bg-white/10 transition-colors" : "bg-gray-50 border border-gray-200 rounded-lg p-3 hover:bg-gray-100 transition-colors"}>
                                             <div className={isDark ? "text-gray-300 text-sm font-mono truncate" : "text-gray-700 text-sm font-mono truncate"} title={file.fileName}>
@@ -992,9 +992,9 @@ function App() {
                 )}
 
                 {fileIndices.length > 0 && (
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
                         {/* Filters Sidebar */}
-                        <aside className={`lg:col-span-1 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
+                        <aside className={`xl:col-span-1 ${isFilterOpen ? 'block' : 'hidden xl:block'}`}>
                             <div className="sticky top-24 space-y-4">
                                 {/* Account Filter */}
                                 <div className={isDark ? "bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-sm border border-white/10 rounded-2xl p-5 shadow-xl" : "bg-white border border-gray-300 rounded-2xl p-5 shadow-lg"}>
@@ -1048,9 +1048,9 @@ function App() {
                         </aside>
 
                         {/* Main Content */}
-                        <main className="lg:col-span-3 space-y-6">
+                        <main className="xl:col-span-4 space-y-6">
                             {/* Stats Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <div className={isDark ? "bg-gradient-to-br from-green-900/30 to-green-800/30 backdrop-blur-sm border border-green-500/20 rounded-xl p-5 shadow-xl" : "bg-gradient-to-br from-green-100 to-green-200 border border-green-300 rounded-xl p-5 shadow-lg"}>
                                     <div className="flex items-center justify-between mb-2">
                                         <div className={isDark ? "text-green-400 text-sm font-medium" : "text-green-700 text-sm font-medium"}>Total P&L</div>
@@ -1120,10 +1120,10 @@ function App() {
 
                             {/* Table */}
                             <div className={isDark ? "bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden shadow-xl" : "bg-white border border-gray-300 rounded-2xl overflow-hidden shadow-lg"}>
-                                <div className={isDark ? "p-6 border-b border-white/10" : "p-6 border-b border-gray-200"}>
+                                <div className={isDark ? "p-4 sm:p-6 border-b border-white/10" : "p-4 sm:p-6 border-b border-gray-200"}>
                                     <div className="flex items-center justify-between mb-4">
                                         <div>
-                                            <h3 className={isDark ? "text-white text-xl font-semibold" : "text-gray-900 text-xl font-semibold"}>Position Details</h3>
+                                            <h3 className={isDark ? "text-white text-lg sm:text-xl font-semibold" : "text-gray-900 text-lg sm:text-xl font-semibold"}>Position Details</h3>
                                             <p className={isDark ? "text-gray-400 text-sm mt-1" : "text-gray-600 text-sm mt-1"}>{filteredPositions.length} positions</p>
                                         </div>
                                         {activeFilterCount > 0 && (
@@ -1134,7 +1134,7 @@ function App() {
                                                     : "flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-100 border border-red-300 text-red-600 hover:bg-red-200 transition-colors text-xs font-medium"}
                                             >
                                                 <FilterX className="w-3.5 h-3.5" />
-                                                Clear {activeFilterCount} column filter{activeFilterCount > 1 ? 's' : ''}
+                                                Clear {activeFilterCount} filter{activeFilterCount > 1 ? 's' : ''}
                                             </button>
                                         )}
                                     </div>
@@ -1159,28 +1159,28 @@ function App() {
                                     </div>
                                 </div>
                                 <div className="overflow-x-auto">
-                                    <table className="w-full">
+                                    <table className="w-full min-w-[800px]">
                                         <thead>
                                         <tr className={isDark ? "bg-black/30" : "bg-gray-100"}>
-                                            <th onClick={() => handleSort('ticker')} className={`text-left px-6 py-4 ${thBase}`}>
+                                            <th onClick={() => handleSort('ticker')} className={`text-left px-4 lg:px-6 py-3 lg:py-4 ${thBase}`}>
                                                 <div className="flex items-center gap-1">Ticker <SortIcon colKey="ticker" /></div>
                                             </th>
-                                            <th onClick={() => handleSort('account')} className={`text-left px-6 py-4 hidden sm:table-cell ${thBase}`}>
+                                            <th onClick={() => handleSort('account')} className={`text-left px-4 lg:px-6 py-3 lg:py-4 ${thBase}`}>
                                                 <div className="flex items-center gap-1">Account <SortIcon colKey="account" /></div>
                                             </th>
-                                            <th onClick={() => handleSort('alias')} className={`text-left px-6 py-4 hidden md:table-cell ${thBase}`}>
+                                            <th onClick={() => handleSort('alias')} className={`text-left px-4 lg:px-6 py-3 lg:py-4 ${thBase}`}>
                                                 <div className="flex items-center gap-1">Alias <SortIcon colKey="alias" /></div>
                                             </th>
-                                            <th onClick={() => handleSort('totalShares')} className={`text-right px-6 py-4 ${thBase}`}>
+                                            <th onClick={() => handleSort('totalShares')} className={`text-right px-4 lg:px-6 py-3 lg:py-4 ${thBase}`}>
                                                 <div className="flex items-center justify-end gap-1">Shares <SortIcon colKey="totalShares" /></div>
                                             </th>
-                                            <th onClick={() => handleSort('averageBuyPrice')} className={`text-right px-6 py-4 hidden lg:table-cell ${thBase}`}>
+                                            <th onClick={() => handleSort('averageBuyPrice')} className={`text-right px-4 lg:px-6 py-3 lg:py-4 ${thBase}`}>
                                                 <div className="flex items-center justify-end gap-1">Avg Buy <SortIcon colKey="averageBuyPrice" /></div>
                                             </th>
-                                            <th className={isDark ? "text-center px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider hidden md:table-cell" : "text-center px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell"}>
+                                            <th className={isDark ? "text-center px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider" : "text-center px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider"}>
                                                 Status
                                             </th>
-                                            <th onClick={() => handleSort('realizedPnL')} className={`text-right px-6 py-4 ${thBase}`}>
+                                            <th onClick={() => handleSort('realizedPnL')} className={`text-right px-4 lg:px-6 py-3 lg:py-4 ${thBase}`}>
                                                 <div className="flex items-center justify-end gap-1">Realized <SortIcon colKey="realizedPnL" /></div>
                                             </th>
                                         </tr>
@@ -1196,7 +1196,7 @@ function App() {
                                                     placeholder="e.g. AAPL"
                                                 />
                                             </td>
-                                            <td className={`${filterRowCell} text-left hidden sm:table-cell`}>
+                                            <td className={`${filterRowCell} text-left`}>
                                                 <ColumnFilterInput
                                                     columnKey="account"
                                                     columnType="string"
@@ -1207,7 +1207,7 @@ function App() {
                                                     placeholder="account…"
                                                 />
                                             </td>
-                                            <td className={`${filterRowCell} text-left hidden md:table-cell`}>
+                                            <td className={`${filterRowCell} text-left`}>
                                                 <ColumnFilterInput
                                                     columnKey="alias"
                                                     columnType="string"
@@ -1229,7 +1229,7 @@ function App() {
                                                     placeholder="qty"
                                                 />
                                             </td>
-                                            <td className={`${filterRowCell} text-right hidden lg:table-cell`}>
+                                            <td className={`${filterRowCell} text-right`}>
                                                 <ColumnFilterInput
                                                     columnKey="averageBuyPrice"
                                                     columnType="number"
@@ -1240,7 +1240,7 @@ function App() {
                                                     placeholder="price"
                                                 />
                                             </td>
-                                            <td className={`${filterRowCell} text-center hidden md:table-cell`}>
+                                            <td className={`${filterRowCell} text-center`}>
                                                 <ColumnFilterInput
                                                     columnKey="status"
                                                     columnType="string"
@@ -1270,13 +1270,13 @@ function App() {
                                                 key={`${pos.account}_${pos.ticker}`}
                                                 className={isDark ? "hover:bg-white/5 transition-colors" : "hover:bg-gray-50 transition-colors"}
                                             >
-                                                <td className="px-6 py-4">
-                                                    <div className={isDark ? "font-bold text-white text-lg" : "font-bold text-gray-900 text-lg"}>{pos.ticker}</div>
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4">
+                                                    <div className={isDark ? "font-bold text-white text-base lg:text-lg" : "font-bold text-gray-900 text-base lg:text-lg"}>{pos.ticker}</div>
                                                 </td>
-                                                <td className="px-6 py-4 hidden sm:table-cell">
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4">
                                                     <div className={isDark ? "text-gray-400 font-mono text-sm" : "text-gray-600 font-mono text-sm"}>#{pos.account}</div>
                                                 </td>
-                                                <td className="px-6 py-4 hidden md:table-cell">
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4">
                                                     <div className={cn(
                                                         "font-medium text-sm",
                                                         isDark ? "text-blue-400" : "text-blue-600"
@@ -1284,14 +1284,14 @@ function App() {
                                                         {accountAliases[pos.account] || '—'}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 text-right">
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4 text-right">
                                                     <div className={isDark ? "text-white font-mono" : "text-gray-900 font-mono"}>{pos.totalShares.toFixed(4)}</div>
                                                 </td>
-                                                <td className="px-6 py-4 text-right hidden lg:table-cell">
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4 text-right">
                                                     <div className={isDark ? "text-gray-300 font-mono" : "text-gray-700 font-mono"}>${pos.averageBuyPrice.toFixed(2)}</div>
                                                 </td>
-                                                <td className="px-6 py-4 text-center hidden md:table-cell">
-                                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4 text-center">
+                                                        <span className={`inline-flex items-center px-2 lg:px-3 py-1 rounded-full text-xs font-semibold ${
                                                             pos.isClosed
                                                                 ? (isDark ? 'bg-gray-700 text-gray-300' : 'bg-gray-300 text-gray-700')
                                                                 : (isDark ? 'bg-green-900/50 text-green-400 border border-green-500/30' : 'bg-green-200 text-green-800 border border-green-400')
@@ -1299,8 +1299,8 @@ function App() {
                                                             {pos.isClosed ? 'CLOSED' : 'ACTIVE'}
                                                         </span>
                                                 </td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <div className={`font-bold text-lg font-mono ${pos.realizedPnL >= 0 ? (isDark ? 'text-green-400' : 'text-green-600') : (isDark ? 'text-red-400' : 'text-red-600')}`}>
+                                                <td className="px-4 lg:px-6 py-3 lg:py-4 text-right">
+                                                    <div className={`font-bold text-base lg:text-lg font-mono ${pos.realizedPnL >= 0 ? (isDark ? 'text-green-400' : 'text-green-600') : (isDark ? 'text-red-400' : 'text-red-600')}`}>
                                                         ${pos.realizedPnL.toFixed(2)}
                                                     </div>
                                                 </td>
